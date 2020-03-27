@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mange_db?useUnicode=true&characterEncoding=UTF8
+    username: mange
+    password: Mange@2020
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+props:
+  imageDir: images_contents
+  zipDir: zipTemp
+  bufferSize: 1024
