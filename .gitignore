@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+images_contents
+obsession.log
+.DS_Store
