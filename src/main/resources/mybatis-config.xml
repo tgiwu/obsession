@@ -11,5 +11,6 @@
     <mappers>
         <mapper resource="com/mine/obsession/mappers/WorksMapper.xml"/>
     </mappers>
+    
 
 </configuration>

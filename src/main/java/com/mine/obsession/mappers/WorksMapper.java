@@ -2,18 +2,23 @@ package com.mine.obsession.mappers;
 
 import com.mine.obsession.models.Works;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Mapper
-interface WorksMapper {
-    Collection<Works> getAllWorks();
+public interface WorksMapper {
+    List<Works> getAllWorks();
 
     Works getWorksById(String id);
 
-     void insertWorks(Works works);
+    int insertWorks(Works works);
 
-     void updateWorks(Works works);
+    void updateWorks(Works works);
 
-     void deleteWorks(String id);
+    void deleteWorks(String id);
+
+    List<Works> getWorksByName(@Param("content") String content);
 }

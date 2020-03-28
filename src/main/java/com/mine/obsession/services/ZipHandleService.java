@@ -82,7 +82,7 @@ public class ZipHandleService {
             return 0;
         }
 
-        private void unzip() {
+        private synchronized void unzip() {
             Enumeration<?> entries = zipFile.entries();
             Map<String, List<String>> chapters  = new HashMap<>();
             try {
@@ -146,7 +146,7 @@ public class ZipHandleService {
             }
         }
 
-        private void unCompressArchiveGz(String archive) throws IOException {
+        private synchronized void unCompressArchiveGz(String archive) throws IOException {
 
             File file = new File(archive);
 
@@ -175,7 +175,7 @@ public class ZipHandleService {
             unCompressTar(finalName);
         }
 
-        private void unCompressTar(String finalName) throws IOException {
+        private synchronized void unCompressTar(String finalName) throws IOException {
             File file = new File(finalName);
             String parentPath = file.getParent();
             TarArchiveInputStream tais =
@@ -222,7 +222,7 @@ public class ZipHandleService {
             Utils.delFileOrDir(file);//删除tar文件
         }
 
-        private void copyToPersistent(Map<String, List<String>> param, String works) {
+        private synchronized void copyToPersistent(Map<String, List<String>> param, String works) {
             if (null == param || param.isEmpty()) return;
 
             try {
@@ -257,7 +257,7 @@ public class ZipHandleService {
             }
         }
 
-        private void persistentToDB(String works, String chapter, String fileName) {
+        private synchronized void persistentToDB(String works, String chapter, String fileName) {
             log.warn("works = " + works + "; chapter = " + chapter + "; fileName = " + fileName);
         }
     }

@@ -4,7 +4,7 @@
 <mapper namespace="com.mine.obsession.mappers.WorksMapper">
     <cache eviction="FIFO" size="1000"/>
 
-    <sql id="works_select">
+    <sql id="works_selection">
         ${alias}.id as works_id,
         ${alias}.works_title,
         ${alias}.chapter_count,
@@ -14,23 +14,32 @@
         ${alias}.works_path
     </sql>
 
-    <select id="getWorksById" parameterType="String" resultType="com.mine.obsession.models.Works">
+    <select id="getWorksById" parameterType="String" resultType="works">
         select
-        <include refid="works_select"><property name="alias" value="works"/></include>
+        <include refid="works_selection"><property name="alias" value="works"/></include>
         from works where id = #{id}
     </select>
 
-    <select id="getAllWorks" resultType="com.mine.obsession.models.Works">
-        select <include refid="works_select"><property name="alias" value="works"/></include>
+    <select id="getWorksByName" parameterType="String" resultType="works">
+        select
+        <include refid="works_selection"><property name="alias" value="works"/></include>
+        from works where works_title like #{content}
+    </select>
+
+    <select id="getAllWorks" resultType="works">
+        select <include refid="works_selection"><property name="alias" value="works"/></include>
         from works
     </select>
 
-    <insert id="insertWorks" parameterType="com.mine.obsession.models.Works">
+    <insert id="insertWorks" parameterType="works">
         insert into works (works_title, chapter_count, works_content, works_path)
         values (#{works_title}, #{chapter_count}, #{works_content}, #{works_path})
+<!--        <selectKey keyProperty="works_id" keyColumn="id" order="AFTER" resultType="int">-->
+<!--            select LAST_INSERT_ID()-->
+<!--        </selectKey>-->
     </insert>
 
-    <update id="updateWorks" parameterType="com.mine.obsession.models.Works">
+    <update id="updateWorks" parameterType="works">
         update works
         set works_title = #{works_title},
             chapter_count = #{chapter_count},
@@ -43,4 +52,14 @@
         delete from works
         where id = #{works_id}
     </delete>
+
+    <resultMap id="works_result" type="works">
+        <id column="id" property="works_id"/>
+        <result column="works_title" property="works_title"/>
+        <result column="works_content" property="works_content"/>
+        <result column="chapter_count" property="chapter_count"/>
+        <result column="create_date" property="create_date"/>
+        <result column="update_date" property="update_date"/>
+        <result column="works_path" property="works_path"/>
+    </resultMap>
 </mapper>
