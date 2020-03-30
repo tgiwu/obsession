@@ -7,10 +7,14 @@
 
     <typeAliases>
         <typeAlias type="com.mine.obsession.models.Works" alias="works"/>
+        <typeAlias type="com.mine.obsession.models.Chapter" alias="chapter"/>
+        <typeAlias type="com.mine.obsession.models.Page" alias="page"/>
     </typeAliases>
     <mappers>
         <mapper resource="com/mine/obsession/mappers/WorksMapper.xml"/>
+        <mapper resource="com/mine/obsession/mappers/ChapterMapper.xml"/>
+        <mapper resource="com/mine/obsession/mappers/PageMapper.xml"/>
     </mappers>
-    
+
 
 </configuration>

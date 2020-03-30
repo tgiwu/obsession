@@ -32,11 +32,14 @@
     </select>
 
     <insert id="insertWorks" parameterType="works">
-        insert into works (works_title, chapter_count, works_content, works_path)
-        values (#{works_title}, #{chapter_count}, #{works_content}, #{works_path})
-<!--        <selectKey keyProperty="works_id" keyColumn="id" order="AFTER" resultType="int">-->
-<!--            select LAST_INSERT_ID()-->
-<!--        </selectKey>-->
+
+     <selectKey  keyProperty="works_id" resultType="string" order="BEFORE">
+                select uuid()
+     </selectKey>
+
+        insert into works (id, works_title, chapter_count, works_content, works_path)
+        values (#{works_id}, #{works_title}, #{chapter_count}, #{works_content}, #{works_path})
+
     </insert>
 
     <update id="updateWorks" parameterType="works">
@@ -50,7 +53,7 @@
 
     <delete id="deleteWorks" parameterType="String">
         delete from works
-        where id = #{works_id}
+        where id = #{id}
     </delete>
 
     <resultMap id="works_result" type="works">

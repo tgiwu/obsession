@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mine.obsession.mappers.PageMapper">
+    <cache eviction="FIFO" size="1000"/>
+
+    <sql id="page_selection">
+        ${alias}.id as page_id,
+        ${alias}.page_title,
+        ${alias}.page_add_date,
+        ${alias}.page_remark,
+        ${alias}.works_id,
+        ${alias}.page_content,
+        ${alias}.page_index,
+        ${alias}.chapter_id
+    </sql>
+
+    <select id="getPageById" parameterType="String" resultType="page">
+        select
+        <include refid="page_selection"><property name="alias" value="page"/></include>
+        from page where id = #{id}
+    </select>
+
+    <select id="getAllPagesByChapterId" parameterType="String" resultType="page">
+        select
+        <include refid="page_selection"><property name="alias" value="page"/></include>
+        from page where chapter_id = #{id}
+    </select>
+
+    <select id="getAllPages" resultType="page">
+        select <include refid="page_selection"><property name="alias" value="page"/></include>
+        from page
+    </select>
+
+    <insert id="insertPage" parameterType="page">
+
+     <selectKey  keyProperty="page_id" resultType="string" order="BEFORE">
+                select uuid()
+     </selectKey>
+
+        insert into works (id, page_title, page_remark, works_id, page_content, page_index, chapter_id)
+        values (#{page_id}, #{page_title}, #{page_remark}, #{works_id}, #{page_content}, #{page_index}, #{chapter_id})
+
+    </insert>
+
+    <update id="updatePage" parameterType="page">
+        update page
+        set page_title = #{page_title},
+            page_remark = #{page_remark},
+            works_id = #{works_id},
+            page_content = #{page_content},
+            page_index = #{page_index},
+            chapter_id = #{chapter_id}
+        where id = #{page_id}
+    </update>
+
+    <delete id="deletePage" parameterType="String">
+        delete from page
+        where id = #{id}
+    </delete>
+
+</mapper>

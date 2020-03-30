@@ -56,6 +56,7 @@ public class HomeController {
         }
 
         log.info("insert result " + worksMapper.insertWorks(works));
+        log.info("insert after " + works);
 
         return ResponseEntity.ok("ok");
     }
