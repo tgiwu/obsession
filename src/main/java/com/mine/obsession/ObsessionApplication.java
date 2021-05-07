@@ -1,5 +1,7 @@
 package com.mine.obsession;
 
+import com.alibaba.nacos.spring.context.annotation.config.EnableNacosConfig;
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import com.mine.obsession.mappers.WorksMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -15,6 +17,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @SpringBootApplication
+@NacosPropertySource(dataId = "obsession", autoRefreshed = true)
+@EnableNacosConfig
 public class ObsessionApplication {
 
     public static Logger log = LoggerFactory.getLogger(ObsessionApplication.class);

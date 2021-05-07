@@ -2,6 +2,10 @@ package com.mine.obsession.controllers;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.nacos.api.annotation.NacosInjected;
+import com.alibaba.nacos.api.config.annotation.NacosValue;
+import com.alibaba.nacos.api.exception.NacosException;
+import com.alibaba.nacos.api.naming.NamingService;
 import com.mine.obsession.Props;
 import com.mine.obsession.mappers.WorksMapper;
 import com.mine.obsession.models.Works;
@@ -24,20 +28,40 @@ import java.util.*;
 @RestController
 public class HomeController {
 
+    @Autowired
     private Props mProps;
-
-    public HomeController(Props props) {
-        this.mProps = props;
-    }
 
     @Autowired
     WorksMapper worksMapper;
+
+    @NacosValue(value = "${imgDir:images_contents}", autoRefreshed = true)
+    private String imgDir;
+
+    @NacosInjected
+    private NamingService namingService;
 
     @GetMapping("/")
     public String home() {
         log.warn(mProps.getImageDir());
         return "home";
     }
+
+    @PostMapping(path = "/imgPath")
+    public ResponseEntity<String> showImgPath() {
+        return ResponseEntity.ok(imgDir);
+    }
+
+    @RequestMapping(value = "/instances", method = RequestMethod.POST,
+    consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getNacosInstances(@RequestBody Map<String, String> params) {
+        try {
+            return ResponseEntity.ok(namingService.getAllInstances(params.get("serviceName")));
+        } catch (NacosException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 
     @RequestMapping(value = "/insertW", method = RequestMethod.POST,
             produces = "application/json;charset=UTF-8",

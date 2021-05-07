@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -21,13 +23,12 @@ import java.util.zip.ZipEntry;
 @Service
 public class ZipHandleService {
 
-    private final ExecutorService mExecutorService;
-    private Props props;
+    @Autowired
+    @Qualifier("zip")
+    private ExecutorService mExecutorService;
 
-    public ZipHandleService(Props props, ExecutorService mExecutorService) {
-        this.props = props;
-        this.mExecutorService = mExecutorService;
-    }
+    @Autowired
+    private Props props;
 
     public void scheduleTask(File zipFile, String works) {
         if (zipFile.getName().endsWith(".zip")) {

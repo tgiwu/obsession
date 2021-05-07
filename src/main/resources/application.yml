@@ -22,3 +22,42 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 1000MB
+  application:
+    name: obsession
+
+nacos:
+  config:
+    server-addr: 127.0.0.1:8848
+    bootstrap:
+      enable: true
+      log-enable: true
+    data-id: obsession
+    group: DEFAULT_GROUP
+    type: yaml
+    max-retry: 10
+    auto-refresh: true
+    config-long-poll-timeout: 46000
+    enable-remote-sync-config: false
+  discovery:
+    server-addr: 127.0.0.1:8848
+    auto-register: true
+    register:
+      ip: 127.0.0.1
+      port: 8080
+      weight: 0.6D
+      healthy: true
+      enabled: true
+      cluster-name: SPRINGBOOT
+      group-name: BOOT
+      metadata:
+        username: test
+    username: obsession
+    password: obsession
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: *
+#  endpoint:
+#    health:
+#      show-details: always
